@@ -24,6 +24,8 @@ export interface Location extends RowDataPacket {
 }
 
 export interface lost_item extends RowDataPacket {
+  uid: string;
+  sname: string;
   lid: number;
   lname: string;
   ldescription: string;

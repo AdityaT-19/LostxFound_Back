@@ -4,5 +4,5 @@ export const pool = mysql.createPool({
   host: "localhost",
   database: "lostxfound",
   user: "root",
-  password: "Shree@98",
+  password: "root",
 });

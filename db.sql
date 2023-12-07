@@ -1,4 +1,4 @@
--- Active: 1701846118470@@127.0.0.1@3306@lostxfound
+-- Active: 1700499878468@@127.0.0.1@3306@lostxfound
 
 CREATE DATABASE lostxfound;
 
@@ -350,25 +350,14 @@ INSERT INTO probably_lost_in VALUES(4, 3, NULL);
 INSERT INTO resolved VALUES(3, 1, '2021-01-01');
 
 CREATE TRIGGER LOSTITEMCOUNT AFTER INSERT ON LOST_ITEM 
-FOR EACH ROW BEGIN UPDATE 
-	UPDATE
-	UPDATE
-	UPDATE
-	UPDATE
-	UPDATE
-	UPDATE users
+FOR EACH ROW BEGIN UPDATE  users
 	SET lostcount = lostcount + 1
 	WHERE uid = NEW.uid;
 	END;
 
 
 CREATE TRIGGER FOUNDITEMCOUNT AFTER INSERT ON FOUND_ITEM 
-FOR EACH ROW BEGIN UPDATE 
-	UPDATE
-	UPDATE
-	UPDATE
-	UPDATE
-	UPDATE
+FOR EACH ROW BEGIN 
 	UPDATE users
 	SET foundcount = foundcount + 1
 	WHERE uid = NEW.uid;
@@ -387,13 +376,40 @@ FROM users
 WHERE uid = '01JCE21CS001';
 
 SELECT
+    uid,
+    sname,
     lid,
     lname,
     ldescription,
     liimage,
     ldate
 FROM lost_item
+NATURAL JOIN users
 WHERE uid = '01JCE21CS001';
+
+SELECT
+    locid,
+    locdesc,
+    bname,
+    floor,
+    aname
+FROM probably_lost_in
+    NATURAL JOIN location
+    NATURAL JOIN admin
+WHERE lid = 1;
+
+SELECT camid FROM camno WHERE locid = 1;
+
+SELECT
+uid,
+sname,
+    lid,
+    lname,
+    ldescription,
+    liimage,
+    ldate
+FROM lost_item
+NATURAL JOIN users
 
 SELECT
     locid,
