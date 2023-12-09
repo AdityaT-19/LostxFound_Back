@@ -1,5 +1,12 @@
 import { getOneQuery, getAllQuery } from "./utils";
-import { User, Camids, found_item, Location, lost_item } from "./model";
+import {
+  User,
+  Camids,
+  found_item,
+  Location,
+  lost_item,
+  found_itemTemp,
+} from "./model";
 
 async function getUser(uid: string): Promise<User> {
   const query = `
@@ -16,7 +23,7 @@ async function getUser(uid: string): Promise<User> {
     `;
   const user = await getOneQuery<User>(query, [uid]);
   //console.log(user as User);
-  
+
   return user as User;
 }
 
@@ -65,7 +72,7 @@ WHERE uid = ?;
       return { ...row, location };
     })
   );
-  //console.log(JSON.stringify(rows) );
+  //console.log((rows as lost_item[]) );
   return rows as lost_item[];
 }
 
@@ -117,4 +124,113 @@ NATURAL JOIN users;
   return rows as lost_item[];
 }
 
+async function getFoundItemsByUser(uid: string): Promise<found_item[]> {
+  const queryFoundItems = `
+  SELECT
+    uid,
+    sname,
+    fid,
+    fname,
+    fdescription,
+    fimage,
+    fdate,
+    locid,
+    locdesc,
+    bname,
+    floor,
+    aname
+FROM found_item
+NATURAL JOIN users
+    NATURAL JOIN location
+    NATURAL JOIN admin
+WHERE uid = ?;
+  `;
+  const rows = await getAllQuery<found_itemTemp>(queryFoundItems, [uid]);
+  const queryCamids = `
+  SELECT camid FROM camno WHERE locid = ?; `;
+  const found_items = (await Promise.all(
+    rows.map(async (row) => {
+      const camids = (await getAllQuery<Camids>(queryCamids, [
+        row.locid,
+      ])) as Camids[];
+      const item = {
+        uid: row.uid,
+        sname: row.sname,
+        fid: row.fid,
+        fname: row.fname,
+        fdescription: row.fdescription,
+        fimage: row.fimage,
+        fdate: row.fdate,
+        location: {
+          locid: row.locid,
+          locdesc: row.locdesc,
+          bname: row.bname,
+          floor: row.floor,
+          aname: row.aname,
+          camids: camids,
+        } as Location,
+      };
+      return item as found_item;
+    })
+  )) as found_item[];
+  //console.log((found_items) );
+  return found_items;
+}
 
+async function getFoundItemsByLostItems(uid :string): Promise<found_item[]> {
+  const queryFoundItems = `
+  SELECT
+    uid,
+    sname,
+    fid,
+    fname,
+    fdescription,
+    fimage,
+    fdate,
+    locid,
+    locdesc,
+    bname,
+    floor,
+    aname
+FROM found_item f
+    NATURAL JOIN users
+    NATURAL JOIN location
+    NATURAL JOIN admin
+WHERE fname IN (
+        SELECT lname
+        FROM lost_item l
+        WHERE
+            lname = fname
+            AND l.uid = ?
+    );
+  `;
+  const rows = await getAllQuery<found_itemTemp>(queryFoundItems, [uid]);
+  const queryCamids = `SELECT camid FROM camno WHERE locid = ?;`;
+  const found_items = (await Promise.all(
+    rows.map(async (row) => {
+      const camids = (await getAllQuery<Camids>(queryCamids, [
+        row.locid,
+      ])) as Camids[];
+      const item = {
+        uid: row.uid,
+        sname: row.sname,
+        fid: row.fid,
+        fname: row.fname,
+        fdescription: row.fdescription,
+        fimage: row.fimage,
+        fdate: row.fdate,
+        location: {
+          locid: row.locid,
+          locdesc: row.locdesc,
+          bname: row.bname,
+          floor: row.floor,
+          aname: row.aname,
+          camids: camids,
+        } as Location,
+      };
+      return item as found_item;
+    })
+  )) as found_item[];
+  console.log((found_items) );
+  return found_items;
+}

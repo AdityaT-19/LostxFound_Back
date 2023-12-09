@@ -425,6 +425,8 @@ WHERE lid = 1;
 SELECT camid FROM camno WHERE locid = 1;
 
 SELECT
+    uid,
+    sname,
     fid,
     fname,
     fdescription,
@@ -436,11 +438,14 @@ SELECT
     floor,
     aname
 FROM found_item
+NATURAL JOIN users
     NATURAL JOIN location
     NATURAL JOIN admin
 WHERE uid = '01JCE21CS001';
 
 SELECT
+    uid,
+    sname,
     fid,
     fname,
     fdescription,
@@ -452,6 +457,7 @@ SELECT
     floor,
     aname
 FROM found_item f
+    NATURAL JOIN users
     NATURAL JOIN location
     NATURAL JOIN admin
 WHERE fname IN (
