@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "ts-node ./selectqueries.ts"
+    "dev": "ts-node ./insertqueries.ts"
   },
   "keywords": [],
   "author": "",

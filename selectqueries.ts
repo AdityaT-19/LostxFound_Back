@@ -8,7 +8,7 @@ import {
   found_itemTemp,
 } from "./model";
 
-async function getUser(uid: string): Promise<User> {
+export async function getUser(uid: string): Promise<User> {
   const query = `
     SELECT
     univid,
@@ -27,7 +27,7 @@ async function getUser(uid: string): Promise<User> {
   return user as User;
 }
 
-async function getLostItemsByUser(uid: string): Promise<lost_item[]> {
+export async function getLostItemsByUser(uid: string): Promise<lost_item[]> {
   const queryLostItems = `
   SELECT
   uid,
@@ -76,7 +76,7 @@ WHERE uid = ?;
   return rows as lost_item[];
 }
 
-async function getAllLostItems(): Promise<lost_item[]> {
+export async function getAllLostItems(): Promise<lost_item[]> {
   const queryLostItems = `
   SELECT
   uid,
@@ -124,7 +124,7 @@ NATURAL JOIN users;
   return rows as lost_item[];
 }
 
-async function getFoundItemsByUser(uid: string): Promise<found_item[]> {
+export async function getFoundItemsByUser(uid: string): Promise<found_item[]> {
   const queryFoundItems = `
   SELECT
     uid,
@@ -177,7 +177,7 @@ WHERE uid = ?;
   return found_items;
 }
 
-async function getFoundItemsByLostItems(uid: string): Promise<found_item[]> {
+export async function getFoundItemsByLostItems(uid: string): Promise<found_item[]> {
   const queryFoundItems = `
   SELECT
     uid,
@@ -235,7 +235,7 @@ WHERE fname IN (
   return found_items;
 }
 
-async function getLostItemByID(lid: number): Promise<lost_item> {
+export async function getLostItemByID(lid: number): Promise<lost_item> {
   const queryLostItem = `
   SELECT
   uid,
@@ -280,7 +280,7 @@ WHERE lid = ?;
   return row as lost_item;
 }
 
-async function getFoundItemByID(fid: number): Promise<found_item> {
+export async function getFoundItemByID(fid: number): Promise<found_item> {
   const queryFoundItems = `
   SELECT
     uid,
@@ -328,7 +328,7 @@ WHERE fid = ?;
   return item as found_item;
 }
 
-async function getAllLocations(univid: number): Promise<Location[]> {
+export async function getAllLocations(univid: number): Promise<Location[]> {
   const queryLocations = `
   SELECT
   locid,
