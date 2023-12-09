@@ -471,3 +471,34 @@ WHERE fname IN (
 SELECT camid FROM camno WHERE locid = 1;
 
 SELECT locid, bname, floor FROM location;
+
+SELECT
+    uid,
+    sname,
+    lid,
+    lname,
+    ldescription,
+    liimage,
+    ldate
+FROM lost_item
+NATURAL JOIN users
+WHERE lid = 1;
+
+SELECT
+    uid,
+    sname,
+    fid,
+    fname,
+    fdescription,
+    fimage,
+    fdate,
+    locid,
+    locdesc,
+    bname,
+    floor,
+    aname
+FROM found_item
+NATURAL JOIN users
+    NATURAL JOIN location
+    NATURAL JOIN admin
+WHERE fid = 1;

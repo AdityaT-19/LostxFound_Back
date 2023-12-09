@@ -234,3 +234,101 @@ WHERE fname IN (
   console.log((found_items) );
   return found_items;
 }
+
+async function getLostItemByID(lid: number): Promise<lost_item> {
+  const queryLostItem = `
+  SELECT
+  uid,
+  sname,
+  lid,
+  lname,
+  ldescription,
+  liimage,
+  ldate
+FROM lost_item
+NATURAL JOIN users
+WHERE lid = ?;
+    `;
+  let row = await getOneQuery<lost_item>(queryLostItem, [lid]);
+  const queryLocation = `
+  SELECT
+  locid,
+  locdesc,
+  bname,
+  floor,
+  aname
+  FROM probably_lost_in
+    NATURAL JOIN location
+    NATURAL JOIN admin
+  WHERE lid = ?;
+      `;
+
+  const queryCamids = `
+  SELECT camid FROM camno WHERE locid = ?;
+  `; 
+      let location = await getAllQuery<Location>(queryLocation, [row.lid]);
+      location = await Promise.all(
+        location.map(async (loc) => {
+          const camids = (await getAllQuery<Camids>(queryCamids, [
+            loc.locid,
+          ])) as Camids[];
+          return { ...loc, camids };
+        })
+      );
+      row = { ...row, location };
+    
+  //console.log((row as lost_item) );
+  return row as lost_item;
+}
+
+async function getFoundItemByID(fid: number): Promise<found_item> {
+  const queryFoundItems = `
+  SELECT
+    uid,
+    sname,
+    fid,
+    fname,
+    fdescription,
+    fimage,
+    fdate,
+    locid,
+    locdesc,
+    bname,
+    floor,
+    aname
+FROM found_item
+NATURAL JOIN users
+    NATURAL JOIN location
+    NATURAL JOIN admin
+WHERE fid = ?;
+  `;
+  const row = await getOneQuery<found_itemTemp>(queryFoundItems, [fid]);
+  const queryCamids = `
+  SELECT camid FROM camno WHERE locid = ?; `;
+      const camids = (await getAllQuery<Camids>(queryCamids, [
+        row.locid,
+      ])) as Camids[];
+      const item = {
+        uid: row.uid,
+        sname: row.sname,
+        fid: row.fid,
+        fname: row.fname,
+        fdescription: row.fdescription,
+        fimage: row.fimage,
+        fdate: row.fdate,
+        location: {
+          locid: row.locid,
+          locdesc: row.locdesc,
+          bname: row.bname,
+          floor: row.floor,
+          aname: row.aname,
+          camids: camids,
+        } as Location,
+      };
+      console.log((item) as found_item);
+      return item as found_item;
+    
+  
+}
+
+getFoundItemByID(1);
