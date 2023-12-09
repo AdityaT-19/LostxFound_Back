@@ -365,6 +365,7 @@ FOR EACH ROW BEGIN
 
 
 SELECT
+    univid,
     uid,
     sname,
     phno,
@@ -470,7 +471,7 @@ WHERE fname IN (
 
 SELECT camid FROM camno WHERE locid = 1;
 
-SELECT locid, bname, floor FROM location;
+SELECT locid, bname, floor,aname FROM location NATURAL JOIN admin WHERE univid = 1;
 
 SELECT
     uid,
@@ -502,3 +503,4 @@ NATURAL JOIN users
     NATURAL JOIN location
     NATURAL JOIN admin
 WHERE fid = 1;
+

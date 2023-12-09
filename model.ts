@@ -1,6 +1,7 @@
 import { RowDataPacket } from "mysql2";
 
 export interface User extends RowDataPacket {
+  univid : number;
   uid: string;
   sname: string;
   email: string;
@@ -16,7 +17,7 @@ export interface Camids extends RowDataPacket {
 
 export interface Location extends RowDataPacket {
   locid: number;
-  locdesc: string;
+  locdesc: string | undefined | null;
   bname: string;
   floor: number;
   aname: string;
