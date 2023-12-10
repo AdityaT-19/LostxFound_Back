@@ -26,7 +26,7 @@ export async function addLostItem(params: lost_itemIns): Promise<lost_item> {
     }
   }
   const lostItem = await getLostItemByID(res.insertId);
-  console.log(JSON.stringify(lostItem));
+  //console.log(JSON.stringify(lostItem));
   return lostItem;
 }
 

@@ -1,7 +1,7 @@
 import { RowDataPacket } from "mysql2";
 
 export interface User extends RowDataPacket {
-  univid : number;
+  univid: number;
   uid: string;
   sname: string;
   email: string;
@@ -46,7 +46,6 @@ export interface found_item extends RowDataPacket {
   location: Location;
 }
 
-
 export interface found_itemTemp extends RowDataPacket {
   uid: string;
   sname: string;
@@ -63,18 +62,17 @@ export interface found_itemTemp extends RowDataPacket {
   camids: Camids[];
 }
 
-export interface lost_itemIns 
-  {
-    lname: string;
-    ldescription: string;
-    liimage: string;
-    ldate: string;
-    uid: string;
-    probabily_lost_location:
-      | { locid: number; locdesc: string | null | undefined }[]
-      | null
-      | undefined;
-  }
+export interface lost_itemIns {
+  lname: string;
+  ldescription: string;
+  liimage: string;
+  ldate: string;
+  uid: string;
+  probabily_lost_location: {
+    locid: number;
+    locdesc: string | null | undefined;
+  }[] | null | undefined;
+}
 
 export interface found_itemIns {
   fname: string;

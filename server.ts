@@ -10,8 +10,8 @@ import {
   getLostItemsByUser,
 } from "./selectqueries";
 import { addFoundItem, addLostItem } from "./insertqueries";
-import { ifError } from "assert";
 import { error } from "console";
+import { found_itemIns, lost_itemIns } from "./model";
 
 const app = express();
 const port = 3000;
@@ -66,19 +66,17 @@ app.get("/:univid/lostitems/user/:uid", async (req, res) => {
 });
 
 app.post("/:univid/lostitems", async (req, res) => {
-    const lostitem = req.body;
-    const result = await addLostItem(lostitem);
-    res.send(result);
+  const lostitem = req.body as lost_itemIns;
+  const result = await addLostItem(lostitem);
+  res.send(result);
 });
 
-
-
-
-
+app.post("/:univid/founditems", async (req, res) => {
+  const founditem = req.body as found_itemIns;
+  const result = await addFoundItem(founditem);
+  res.send(result);
+});
 
 app.listen(port, () => {
-    console.log(`Example app listening at http://localhost:${port}`);
-    if(error){
-        console.log(error);
-    }
-})
+  console.log(`Example app listening at http://localhost:${port}`);
+});
