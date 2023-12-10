@@ -1,20 +1,18 @@
 import express from "express";
-import {
-  getUser,
-  getAllLocations,
-  getAllLostItems,
-  getFoundItemByID,
-  getFoundItemsByLostItems,
-  getFoundItemsByUser,
-  getLostItemByID,
-  getLostItemsByUser,
-} from "./selectqueries";
-import { addFoundItem, addLostItem } from "./insertqueries";
-import { error } from "console";
-import { found_itemIns, lost_itemIns } from "./model";
+import { addFoundItem } from "./found_items/insertqueries";
+import { found_itemIns } from "./found_items/model";
+import { getFoundItemByID, getFoundItemsByLostItems, getFoundItemsByUser } from "./found_items/selectqueries";
+import { getAllLocations } from "./locations/selectqueries";
+import { addLostItem } from "./lost_items/insertqueries";
+import { lost_itemIns } from "./lost_items/model";
+import { getAllLostItems, getLostItemByID, getLostItemsByUser } from "./lost_items/selectqueries";
+import { getUser } from "./user/selectqueries";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 const app = express();
-const port = 3000;
+const port = process.env.EXPRESS_PORT;
 app.use(express.json());
 
 app.get("/:univid/user/:uid", async (req, res) => {
