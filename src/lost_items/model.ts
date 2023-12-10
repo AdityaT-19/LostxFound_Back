@@ -1,7 +1,6 @@
 import { RowDataPacket } from "mysql2";
 import { Location } from "../locations/model";
 
-
 export interface lost_item extends RowDataPacket {
   uid: string;
   sname: string;

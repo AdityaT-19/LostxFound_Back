@@ -2,8 +2,7 @@ import { getLocationFromPLL } from "../locations/selectqueries";
 import { getAllQuery, getOneQuery } from "../utils";
 import { lost_item } from "./model";
 
-const queryLostItemsTemplate = 
-`SELECT
+const queryLostItemsTemplate = `SELECT
 uid,
 sname,
 lid,
