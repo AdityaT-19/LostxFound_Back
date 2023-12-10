@@ -1,24 +1,14 @@
 import { AddOrUpdateQuery } from "./utils";
-import { found_item, lost_item } from "./model";
+import { found_item, found_itemIns, lost_item, lost_itemIns } from "./model";
 import { getLostItemByID, getFoundItemByID } from "./selectqueries";
 
-async function addLostItem(params: {
-  lname: string;
-  ldescription: string;
-  liimage: string;
-  ldate: string;
-  uid: string;
-  probabily_lost_location:
-    | { locid: number; locdesc: string | null | undefined }[]
-    | null
-    | undefined;
-}): Promise<lost_item> {
+export async function addLostItem(params: lost_itemIns): Promise<lost_item> {
   const queryString = `
     INSERT INTO lost_item
     SET ?;
     `;
-    const paramsWithoutLocation = {...params};
-    delete paramsWithoutLocation.probabily_lost_location;
+  const paramsWithoutLocation = { ...params };
+  delete paramsWithoutLocation.probabily_lost_location;
   const res = await AddOrUpdateQuery(queryString, [paramsWithoutLocation]);
   if (
     params.probabily_lost_location &&
@@ -40,15 +30,7 @@ async function addLostItem(params: {
   return lostItem;
 }
 
-async function addFoundItem(params: {
-  fname: string;
-  fdescription: string;
-  fimage: string;
-  fdate: string;
-  locid: number;
-  locdesc: string;
-  uid: string;
-}): Promise<found_item> {
+export async function addFoundItem(params: found_itemIns): Promise<found_item> {
   const queryString = `
     INSERT INTO found_item
     SET ?;
@@ -57,25 +39,3 @@ async function addFoundItem(params: {
   const foundItem = await getFoundItemByID(res.insertId);
   return foundItem;
 }
-
-const item = {
-  lname: "Book",
-  ldescription: "A book with a red cover",
-  liimage: "imgbook.jpg",
-  ldate: "2021-05-01",
-  uid: "01JCE21CS004",
-  probabily_lost_location: [
-    { locid: 1, locdesc: "CSE002" },
-    { locid: 2, locdesc: "CSE003" },
-  ],
-};
-
-const item2 = {
-  fname: "Book",
-  fdescription: "A book with a red cover",
-  fimage: "imgbook.jpg",
-  fdate: "2021-05-01",
-  locid: 1,
-  locdesc: "CSE002",
-  uid: "01JCE21CS004",
-};

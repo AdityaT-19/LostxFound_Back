@@ -20,7 +20,7 @@ export async function getUser(uid: string): Promise<User> {
     foundcount,
     lostcount
     FROM users
-    WHERE uid = ?
+    WHERE uid = ?  
     `;
   const user = await getOneQuery<User>(query, [uid]);
   //console.log(user as User);
@@ -76,7 +76,7 @@ WHERE uid = ?;
   return rows as lost_item[];
 }
 
-export async function getAllLostItems(): Promise<lost_item[]> {
+export async function getAllLostItems(univid: number): Promise<lost_item[]> {
   const queryLostItems = `
   SELECT
   uid,
@@ -87,9 +87,11 @@ export async function getAllLostItems(): Promise<lost_item[]> {
   liimage,
   ldate
 FROM lost_item
-NATURAL JOIN users;
+NATURAL JOIN users
+WHERE univid = ?
+;
     `;
-  let rows = await getAllQuery<lost_item>(queryLostItems, []);
+  let rows = await getAllQuery<lost_item>(queryLostItems, [univid]);
   const queryLocation = `
   SELECT
   locid,
@@ -177,7 +179,9 @@ WHERE uid = ?;
   return found_items;
 }
 
-export async function getFoundItemsByLostItems(uid: string): Promise<found_item[]> {
+export async function getFoundItemsByLostItems(
+  uid: string
+): Promise<found_item[]> {
   const queryFoundItems = `
   SELECT
     uid,
@@ -202,7 +206,7 @@ WHERE fname IN (
         WHERE
             lname = fname
             AND l.uid = ?
-    );
+    ) ;
   `;
   const rows = await getAllQuery<found_itemTemp>(queryFoundItems, [uid]);
   const queryCamids = `SELECT camid FROM camno WHERE locid = ?;`;

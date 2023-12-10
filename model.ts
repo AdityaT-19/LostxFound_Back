@@ -63,3 +63,25 @@ export interface found_itemTemp extends RowDataPacket {
   camids: Camids[];
 }
 
+export interface lost_itemIns 
+  {
+    lname: string;
+    ldescription: string;
+    liimage: string;
+    ldate: string;
+    uid: string;
+    probabily_lost_location:
+      | { locid: number; locdesc: string | null | undefined }[]
+      | null
+      | undefined;
+  }
+
+export interface found_itemIns {
+  fname: string;
+  fdescription: string;
+  fimage: string;
+  fdate: string;
+  locid: number;
+  locdesc: string;
+  uid: string;
+}
