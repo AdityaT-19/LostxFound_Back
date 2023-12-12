@@ -20,3 +20,8 @@ export async function getUser(uid: string): Promise<User> {
   //console.log(user as User);
   return user as User;
 }
+
+export async function getUserEmail(uid : string) : Promise<string> {
+  const user = await getUser(uid);
+  return user.email;
+}
