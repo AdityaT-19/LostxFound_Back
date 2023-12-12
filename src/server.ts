@@ -1,13 +1,22 @@
 import express from "express";
 import { addFoundItem } from "./found_items/insertqueries";
 import { found_itemIns } from "./found_items/model";
-import { getFoundItemByID, getFoundItemsByLostItems, getFoundItemsByUser } from "./found_items/selectqueries";
+import {
+  getFoundItemByID,
+  getFoundItemsByLostItems,
+  getFoundItemsByUser,
+} from "./found_items/selectqueries";
 import { getAllLocations } from "./locations/selectqueries";
 import { addLostItem } from "./lost_items/insertqueries";
 import { lost_itemIns } from "./lost_items/model";
-import { getAllLostItems, getLostItemByID, getLostItemsByUser } from "./lost_items/selectqueries";
+import {
+  getAllLostItems,
+  getLostItemByID,
+  getLostItemsByUser,
+} from "./lost_items/selectqueries";
 import { getUser } from "./user/selectqueries";
 import dotenv from "dotenv";
+import { deleteLostItem } from "./lost_items/deletequery";
 
 dotenv.config();
 
@@ -72,6 +81,12 @@ app.post("/:univid/lostitems", async (req, res) => {
 app.post("/:univid/founditems", async (req, res) => {
   const founditem = req.body as found_itemIns;
   const result = await addFoundItem(founditem);
+  res.send(result);
+});
+
+app.delete("/:univid/lostitems/:lid", async (req, res) => {
+  const lid = parseInt(req.params.lid);
+  const result = await deleteLostItem(lid);
   res.send(result);
 });
 

@@ -75,7 +75,10 @@ export async function getFoundItemsByLostItems(
           WHERE
               lname = fname
               AND l.uid = ?
-      ) ;
+      ) AND fid NOT IN (
+          SELECT fid
+          FROM resolved
+      )
     `;
   const rows = await getAllQuery<found_itemTemp>(queryFoundItems, [uid]);
   const found_items = (await Promise.all(

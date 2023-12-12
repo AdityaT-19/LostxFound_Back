@@ -374,7 +374,7 @@ SELECT
     foundcount,
     lostcount
 FROM users
-WHERE uid = '01JCE21CS001';
+WHERE uid = '01JCE21CS004';
 
 SELECT
     uid,
@@ -411,6 +411,10 @@ sname,
     ldate
 FROM lost_item
 NATURAL JOIN users
+WHERE lID NOT IN (
+        SELECT lid
+        FROM resolved
+    );
 
 SELECT
     locid,
@@ -466,7 +470,10 @@ WHERE fname IN (
         FROM lost_item l
         WHERE
             lname = fname
-            AND l.uid = '01JCE21CS001'
+            AND l.uid = '01JCE21CS004'
+    ) AND fid NOT IN (
+        SELECT fid
+        FROM resolved
     );
 
 SELECT camid FROM camno WHERE locid = 1;

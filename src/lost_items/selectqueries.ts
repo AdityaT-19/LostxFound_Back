@@ -28,7 +28,11 @@ export async function getLostItemsByUser(uid: string): Promise<lost_item[]> {
 }
 
 export async function getAllLostItems(univid: number): Promise<lost_item[]> {
-  const queryLostItems = queryLostItemsTemplate + "univid = ?;";
+  const queryLostItems =
+    queryLostItemsTemplate +
+    `univid = ? 
+  AND lid NOT IN (SELECT lid FROM resolved);
+  ;`;
   let rows = await getAllQuery<lost_item>(queryLostItems, [univid]);
 
   rows = await Promise.all(
