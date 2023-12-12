@@ -90,7 +90,7 @@ app.delete("/:univid/lostitems/:lid", async (req, res) => {
   res.send(result);
 });
 
-app.get("/:uid", async (req, res) => {
+app.get("/user/:uid", async (req, res) => {
   const uid = req.params.uid as string;
   const email = await getUserEmail(uid);
   res.send(email);
