@@ -1,6 +1,7 @@
 import { Camids, Location } from "../locations/model";
 import { getAllQuery, getOneQuery } from "../utils";
 import { found_item, found_itemTemp } from "./model";
+import { Router } from "express";
 
 const queryFoundItemsTemplate = `
 SELECT
@@ -51,7 +52,7 @@ async function createFoundItemFromRow(
   return item as found_item;
 }
 
-export async function getFoundItemsByUser(uid: string): Promise<found_item[]> {
+async function getFoundItemsByUser(uid: string): Promise<found_item[]> {
   const queryFoundItems = queryFoundItemsTemplate + "uid = ?;";
   const rows = await getAllQuery<found_itemTemp>(queryFoundItems, [uid]);
 
@@ -64,9 +65,7 @@ export async function getFoundItemsByUser(uid: string): Promise<found_item[]> {
   return found_items;
 }
 
-export async function getFoundItemsByLostItems(
-  uid: string
-): Promise<found_item[]> {
+async function getFoundItemsByLostItems(uid: string): Promise<found_item[]> {
   const queryFoundItems =
     queryFoundItemsTemplate +
     `fname IN (
@@ -96,3 +95,25 @@ export async function getFoundItemByID(fid: number): Promise<found_item> {
   const found_item = await createFoundItemFromRow(row);
   return found_item;
 }
+
+const router = Router();
+
+router.get("/:fid", async (req, res) => {
+  const id = parseInt(req.params.fid);
+  const founditem = await getFoundItemByID(id);
+  res.send(founditem);
+});
+
+router.get("/lostitems/:uid", async (req, res) => {
+  const uid = req.params.uid as string;
+  const founditems = await getFoundItemsByLostItems(uid);
+  res.send(founditems);
+});
+
+router.get("/user/:uid", async (req, res) => {
+  const uid = req.params.uid as string;
+  const founditems = await getFoundItemsByUser(uid);
+  res.send(founditems);
+});
+
+export default router;

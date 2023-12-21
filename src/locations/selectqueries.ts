@@ -1,3 +1,4 @@
+import express from "express";
 import { getAllQuery } from "../utils";
 import { Location, Camids } from "./model";
 
@@ -5,7 +6,7 @@ const queryCamids = `
     SELECT camid FROM camno WHERE locid = ?;
     `;
 
-export async function getAllLocations(univid: number): Promise<Location[]> {
+async function getAllLocations(univid: number): Promise<Location[]> {
   const queryLocations = `
     SELECT
     locid,
@@ -54,3 +55,14 @@ export async function getLocationFromPLL(lid: number): Promise<Location[]> {
   );
   return location as Location[];
 }
+
+var router = express.Router({ mergeParams: true });
+
+router.get("/", async (req, res) => {
+  //@ts-ignore
+  const univid = parseInt(req.params.univid);
+  const locations = await getAllLocations(univid);
+  res.send(locations);
+});
+
+export default router;

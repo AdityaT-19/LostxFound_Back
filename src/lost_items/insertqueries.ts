@@ -1,8 +1,9 @@
+import { Router } from "express";
 import { AddOrUpdateQuery } from "../utils";
 import { lost_itemIns, lost_item } from "./model";
 import { getLostItemByID } from "./selectqueries";
 
-export async function addLostItem(params: lost_itemIns): Promise<lost_item> {
+async function addLostItem(params: lost_itemIns): Promise<lost_item> {
   const queryString = `
       INSERT INTO lost_item
       SET ?;
@@ -29,3 +30,12 @@ export async function addLostItem(params: lost_itemIns): Promise<lost_item> {
   //console.log(JSON.stringify(lostItem));
   return lostItem;
 }
+
+const router = Router();
+router.post("/", async (req, res) => {
+  const lostitem = req.body as lost_itemIns;
+  const result = await addLostItem(lostitem);
+  res.send(result);
+});
+
+export default router;

@@ -1,8 +1,9 @@
 import { AddOrUpdateQuery } from "../utils";
 import { lost_itemIns, lost_item } from "./model";
 import { getLostItemByID } from "./selectqueries";
+import { Router } from "express";
 
-export async function updateLostItem(
+async function updateLostItem(
   item: Partial<lost_itemIns>,
   lid: number
 ): Promise<lost_item> {
@@ -46,3 +47,13 @@ export async function updateLostItem(
   const lostItem = await getLostItemByID(lid);
   return lostItem;
 }
+
+const router = Router();
+router.put("/:lid", async (req, res) => {
+  const lid = parseInt(req.params.lid);
+  const lostitem = req.body as Partial<lost_itemIns>;
+  const result = await updateLostItem(lostitem, lid);
+  res.send(result);
+});
+
+export default router;
