@@ -17,6 +17,7 @@ import {
 import { getUser, getUserEmail } from "./user/selectqueries";
 import dotenv from "dotenv";
 import { deleteLostItem } from "./lost_items/deletequery";
+import { updateLostItem } from "./lost_items/updatequeries";
 
 dotenv.config();
 
@@ -87,6 +88,13 @@ app.post("/:univid/founditems", async (req, res) => {
 app.delete("/:univid/lostitems/:lid", async (req, res) => {
   const lid = parseInt(req.params.lid);
   const result = await deleteLostItem(lid);
+  res.send(result);
+});
+
+app.put("/:univid/lostitems/:lid", async (req, res) => {
+  const lid = parseInt(req.params.lid);
+  const lostitem = req.body as Partial<lost_itemIns>;
+  const result = await updateLostItem(lostitem, lid);
   res.send(result);
 });
 

@@ -45,6 +45,24 @@ export async function getAllLostItems(univid: number): Promise<lost_item[]> {
   return rows as lost_item[];
 }
 
+export async function getRecent5LostItems(univid: number): Promise<lost_item[]> {
+  const queryLostItems =
+    queryLostItemsTemplate +
+    `univid = ? 
+  AND lid NOT IN (SELECT lid FROM resolved)
+  ORDER BY ldate DESC LIMIT 5;`;
+  let rows = await getAllQuery<lost_item>(queryLostItems, [univid]);
+
+  rows = await Promise.all(
+    rows.map(async (row) => {
+      let location = await getLocationFromPLL(row.lid!);
+      return { ...row, location };
+    })
+  );
+  //console.log(JSON.stringify(rows) );
+  return rows as lost_item[];
+}
+
 export async function getLostItemByID(lid: number): Promise<lost_item> {
   const queryLostItem = queryLostItemsTemplate + "lid = ?;";
   let row = await getOneQuery<lost_item>(queryLostItem, [lid]);

@@ -1,5 +1,4 @@
 -- Active: 1700499878468@@127.0.0.1@3306@lostxfound
-
 CREATE DATABASE lostxfound;
 
 USE lostxfound;
@@ -22,8 +21,8 @@ CREATE TABLE
     administration (
         aid INT,
         univid INT,
-        FOREIGN KEY (aid) REFERENCES admin(aid) ON DELETE CASCADE ON UPDATE CASCADE,
-        FOREIGN KEY (univid) REFERENCES university(univid) ON DELETE CASCADE ON UPDATE CASCADE,
+        FOREIGN KEY (aid) REFERENCES admin (aid) ON DELETE CASCADE ON UPDATE CASCADE,
+        FOREIGN KEY (univid) REFERENCES university (univid) ON DELETE CASCADE ON UPDATE CASCADE,
         PRIMARY KEY (aid, univid)
     );
 
@@ -38,7 +37,7 @@ CREATE TABLE
         univid INT,
         lostcount INT DEFAULT 0,
         foundcount INT DEFAULT 0,
-        FOREIGN KEY (univid) REFERENCES university(univid) ON DELETE CASCADE ON UPDATE CASCADE,
+        FOREIGN KEY (univid) REFERENCES university (univid) ON DELETE CASCADE ON UPDATE CASCADE,
         PRIMARY KEY (uid)
     );
 
@@ -49,17 +48,15 @@ CREATE TABLE
         floor INT NOT NULL,
         aid INT,
         univid INT,
-        FOREIGN KEY (aid) REFERENCES admin(aid) ON DELETE
-        SET
-            NULL ON UPDATE CASCADE,
-            FOREIGN KEY (univid) REFERENCES university(univid) ON DELETE CASCADE ON UPDATE CASCADE
+        FOREIGN KEY (aid) REFERENCES admin (aid) ON DELETE SET NULL ON UPDATE CASCADE,
+        FOREIGN KEY (univid) REFERENCES university (univid) ON DELETE CASCADE ON UPDATE CASCADE
     );
 
 CREATE TABLE
-    camno(
+    camno (
         locid INT,
         camid INT NOT NULL,
-        Foreign Key (locid) REFERENCES location(locid) ON DELETE CASCADE
+        Foreign Key (locid) REFERENCES location (locid) ON DELETE CASCADE
     );
 
 CREATE TABLE
@@ -70,7 +67,7 @@ CREATE TABLE
         liimage VARCHAR(255),
         ldate DATE,
         uid VARCHAR(20),
-        FOREIGN KEY (uid) REFERENCES users(uid) ON DELETE CASCADE ON UPDATE CASCADE
+        FOREIGN KEY (uid) REFERENCES users (uid) ON DELETE CASCADE ON UPDATE CASCADE
     );
 
 CREATE TABLE
@@ -83,8 +80,8 @@ CREATE TABLE
         locid INT NOT NULL,
         locdesc TEXT NOT NULL,
         uid VARCHAR(20),
-        FOREIGN KEY (locid) REFERENCES location(locid) ON DELETE CASCADE ON UPDATE CASCADE,
-        FOREIGN KEY (uid) REFERENCES users(uid) ON DELETE CASCADE ON UPDATE CASCADE
+        FOREIGN KEY (locid) REFERENCES location (locid) ON DELETE CASCADE ON UPDATE CASCADE,
+        FOREIGN KEY (uid) REFERENCES users (uid) ON DELETE CASCADE ON UPDATE CASCADE
     );
 
 CREATE TABLE
@@ -92,8 +89,8 @@ CREATE TABLE
         lid INT,
         locid INT,
         locdesc TEXT,
-        FOREIGN KEY (lid) REFERENCES lost_item(lid) ON DELETE CASCADE ON UPDATE CASCADE,
-        FOREIGN KEY (locid) REFERENCES location(locid) ON DELETE CASCADE ON UPDATE CASCADE,
+        FOREIGN KEY (lid) REFERENCES lost_item (lid) ON DELETE CASCADE ON UPDATE CASCADE,
+        FOREIGN KEY (locid) REFERENCES location (locid) ON DELETE CASCADE ON UPDATE CASCADE,
         PRIMARY KEY (lid, locid)
     );
 
@@ -102,22 +99,40 @@ CREATE TABLE
         lid INT,
         fid INT,
         rdate DATE NOT NULL,
-        FOREIGN KEY (lid) REFERENCES lost_item(lid) ON DELETE CASCADE ON UPDATE CASCADE,
-        FOREIGN KEY (fid) REFERENCES found_item(fid) ON DELETE CASCADE ON UPDATE CASCADE,
+        FOREIGN KEY (lid) REFERENCES lost_item (lid) ON DELETE CASCADE ON UPDATE CASCADE,
+        FOREIGN KEY (fid) REFERENCES found_item (fid) ON DELETE CASCADE ON UPDATE CASCADE,
         PRIMARY KEY (lid, fid)
     );
 
-INSERT INTO university VALUES (1, 'SJCE, JSSSTU');
+INSERT INTO
+    university
+VALUES
+    (1, 'SJCE, JSSSTU');
 
-INSERT INTO university VALUES (2, 'VVCE');
+INSERT INTO
+    university
+VALUES
+    (2, 'VVCE');
 
-INSERT INTO admin VALUES (1, 'Dr. B G Sudarshan');
+INSERT INTO
+    admin
+VALUES
+    (1, 'Dr. B G Sudarshan');
 
-INSERT INTO admin VALUES (2, 'Dr. B Sadashive Gowda');
+INSERT INTO
+    admin
+VALUES
+    (2, 'Dr. B Sadashive Gowda');
 
-INSERT INTO administration VALUES (1, 1);
+INSERT INTO
+    administration
+VALUES
+    (1, 1);
 
-INSERT INTO administration VALUES (2, 2);
+INSERT INTO
+    administration
+VALUES
+    (2, 2);
 
 INSERT INTO
     users (
@@ -129,7 +144,8 @@ INSERT INTO
         address,
         univid
     )
-VALUES (
+VALUES
+    (
         '01JCE21CS001',
         'firebaseid1',
         'Sachin',
@@ -149,7 +165,8 @@ INSERT INTO
         address,
         univid
     )
-VALUES (
+VALUES
+    (
         '01JCE21CS002',
         'firebaseid2',
         'Rahul',
@@ -169,7 +186,8 @@ INSERT INTO
         address,
         univid
     )
-VALUES (
+VALUES
+    (
         '01JCE21CS003',
         'firebaseid3',
         'Virat',
@@ -189,7 +207,8 @@ INSERT INTO
         address,
         univid
     )
-VALUES (
+VALUES
+    (
         '01JCE21CS004',
         'firebaseid4',
         'Dhoni',
@@ -200,14 +219,9 @@ VALUES (
     );
 
 INSERT INTO
-    lost_item (
-        lname,
-        ldescription,
-        liimage,
-        ldate,
-        uid
-    )
-VALUES (
+    lost_item (lname, ldescription, liimage, ldate, uid)
+VALUES
+    (
         'Laptop',
         'Dell Laptop',
         'imgdell.jpg',
@@ -216,14 +230,9 @@ VALUES (
     );
 
 INSERT INTO
-    lost_item (
-        lname,
-        ldescription,
-        liimage,
-        ldate,
-        uid
-    )
-VALUES (
+    lost_item (lname, ldescription, liimage, ldate, uid)
+VALUES
+    (
         'Mobile',
         'Samsung Mobile',
         'imgsamsung.jpg',
@@ -232,14 +241,9 @@ VALUES (
     );
 
 INSERT INTO
-    lost_item (
-        lname,
-        ldescription,
-        liimage,
-        ldate,
-        uid
-    )
-VALUES (
+    lost_item (lname, ldescription, liimage, ldate, uid)
+VALUES
+    (
         'Laptop',
         'HP Laptop',
         'imghp.jpg',
@@ -248,14 +252,9 @@ VALUES (
     );
 
 INSERT INTO
-    lost_item (
-        lname,
-        ldescription,
-        liimage,
-        ldate,
-        uid
-    )
-VALUES (
+    lost_item (lname, ldescription, liimage, ldate, uid)
+VALUES
+    (
         'Laptop',
         'Apple Laptop',
         'imgapple.jpg',
@@ -265,21 +264,39 @@ VALUES (
 
 INSERT INTO
     location (bname, floor, aid, univid)
-VALUES ('CSE', 1, 1, 1);
+VALUES
+    ('CSE', 1, 1, 1);
 
-INSERT INTO camno VALUES(1, 1), (1, 2), (1, 3);
+INSERT INTO
+    camno
+VALUES
+    (1, 1),
+    (1, 2),
+    (1, 3);
 
 INSERT INTO
     location (bname, floor, aid, univid)
-VALUES ('CSE', 2, 1, 1);
+VALUES
+    ('CSE', 2, 1, 1);
 
-INSERT INTO camno VALUES(2, 5), (2, 6), (2, 7);
+INSERT INTO
+    camno
+VALUES
+    (2, 5),
+    (2, 6),
+    (2, 7);
 
 INSERT INTO
     location (bname, floor, aid, univid)
-VALUES ('ECE', 1, 1, 1);
+VALUES
+    ('ECE', 1, 1, 1);
 
-INSERT INTO camno VALUES(3, 1), (3, 2), (3, 3);
+INSERT INTO
+    camno
+VALUES
+    (3, 1),
+    (3, 2),
+    (3, 3);
 
 INSERT INTO
     found_item (
@@ -291,7 +308,8 @@ INSERT INTO
         locdesc,
         uid
     )
-VALUES (
+VALUES
+    (
         'Laptop',
         'Apple Laptop',
         'imgapple.jpg',
@@ -311,7 +329,8 @@ INSERT INTO
         locdesc,
         uid
     )
-VALUES (
+VALUES
+    (
         'Key',
         'Car Key',
         'imgkey.jpg',
@@ -331,7 +350,8 @@ INSERT INTO
         locdesc,
         uid
     )
-VALUES (
+VALUES
+    (
         'Watch',
         'FireBoltt Smart Watch',
         'imgwatch.jpg',
@@ -341,28 +361,43 @@ VALUES (
         '01JCE21CS001'
     );
 
-INSERT INTO probably_lost_in VALUES(1, 1, 'near CS001');
+INSERT INTO
+    probably_lost_in
+VALUES
+    (1, 1, 'near CS001');
 
-INSERT INTO probably_lost_in VALUES(1, 2, 'near CS101');
+INSERT INTO
+    probably_lost_in
+VALUES
+    (1, 2, 'near CS101');
 
-INSERT INTO probably_lost_in VALUES(4, 3, NULL);
+INSERT INTO
+    probably_lost_in
+VALUES
+    (4, 3, NULL);
 
-INSERT INTO resolved VALUES(3, 1, '2021-01-01');
+INSERT INTO
+    resolved
+VALUES
+    (3, 1, '2021-01-01');
 
-CREATE TRIGGER LOSTITEMCOUNT AFTER INSERT ON LOST_ITEM 
-FOR EACH ROW BEGIN UPDATE  users
-	SET lostcount = lostcount + 1
-	WHERE uid = NEW.uid;
-	END;
+CREATE TRIGGER LOSTITEMCOUNT AFTER INSERT ON LOST_ITEM FOR EACH ROW BEGIN
+UPDATE users
+SET
+    lostcount = lostcount + 1
+WHERE
+    uid = NEW.uid;
 
+END;
 
-CREATE TRIGGER FOUNDITEMCOUNT AFTER INSERT ON FOUND_ITEM 
-FOR EACH ROW BEGIN 
-	UPDATE users
-	SET foundcount = foundcount + 1
-	WHERE uid = NEW.uid;
-	END;
+CREATE TRIGGER FOUNDITEMCOUNT AFTER INSERT ON FOUND_ITEM FOR EACH ROW BEGIN
+UPDATE users
+SET
+    foundcount = foundcount + 1
+WHERE
+    uid = NEW.uid;
 
+END;
 
 SELECT
     univid,
@@ -373,8 +408,10 @@ SELECT
     address,
     foundcount,
     lostcount
-FROM users
-WHERE uid = '01JCE21CS004';
+FROM
+    users
+WHERE
+    uid = '01JCE21CS004';
 
 SELECT
     uid,
@@ -384,9 +421,11 @@ SELECT
     ldescription,
     liimage,
     ldate
-FROM lost_item
-NATURAL JOIN users
-WHERE uid = '01JCE21CS001';
+FROM
+    lost_item
+    NATURAL JOIN users
+WHERE
+    uid = '01JCE21CS001';
 
 SELECT
     locid,
@@ -394,26 +433,37 @@ SELECT
     bname,
     floor,
     aname
-FROM probably_lost_in
+FROM
+    probably_lost_in
     NATURAL JOIN location
     NATURAL JOIN admin
-WHERE lid = 1;
-
-SELECT camid FROM camno WHERE locid = 1;
+WHERE
+    lid = 1;
 
 SELECT
-uid,
-sname,
+    camid
+FROM
+    camno
+WHERE
+    locid = 1;
+
+SELECT
+    uid,
+    sname,
     lid,
     lname,
     ldescription,
     liimage,
     ldate
-FROM lost_item
-NATURAL JOIN users
-WHERE lID NOT IN (
-        SELECT lid
-        FROM resolved
+FROM
+    lost_item
+    NATURAL JOIN users
+WHERE
+    lID NOT IN (
+        SELECT
+            lid
+        FROM
+            resolved
     );
 
 SELECT
@@ -422,12 +472,19 @@ SELECT
     bname,
     floor,
     aname
-FROM probably_lost_in
+FROM
+    probably_lost_in
     NATURAL JOIN location
     NATURAL JOIN admin
-WHERE lid = 1;
+WHERE
+    lid = 1;
 
-SELECT camid FROM camno WHERE locid = 1;
+SELECT
+    camid
+FROM
+    camno
+WHERE
+    locid = 1;
 
 SELECT
     uid,
@@ -442,55 +499,13 @@ SELECT
     bname,
     floor,
     aname
-FROM found_item
-NATURAL JOIN users
-    NATURAL JOIN location
-    NATURAL JOIN admin
-WHERE uid = '01JCE21CS001';
-
-SELECT
-    uid,
-    sname,
-    fid,
-    fname,
-    fdescription,
-    fimage,
-    fdate,
-    locid,
-    locdesc,
-    bname,
-    floor,
-    aname
-FROM found_item f
+FROM
+    found_item
     NATURAL JOIN users
     NATURAL JOIN location
     NATURAL JOIN admin
-WHERE fname IN (
-        SELECT lname
-        FROM lost_item l
-        WHERE
-            lname = fname
-            AND l.uid = '01JCE21CS004'
-    ) AND fid NOT IN (
-        SELECT fid
-        FROM resolved
-    );
-
-SELECT camid FROM camno WHERE locid = 1;
-
-SELECT locid, bname, floor,aname FROM location NATURAL JOIN admin WHERE univid = 1;
-
-SELECT
-    uid,
-    sname,
-    lid,
-    lname,
-    ldescription,
-    liimage,
-    ldate
-FROM lost_item
-NATURAL JOIN users
-WHERE lid = 1;
+WHERE
+    uid = '01JCE21CS001';
 
 SELECT
     uid,
@@ -505,9 +520,106 @@ SELECT
     bname,
     floor,
     aname
-FROM found_item
-NATURAL JOIN users
+FROM
+    found_item f
+    NATURAL JOIN users
     NATURAL JOIN location
     NATURAL JOIN admin
-WHERE fid = 1;
+WHERE
+    fname IN (
+        SELECT
+            lname
+        FROM
+            lost_item l
+        WHERE
+            lname = fname
+            AND l.uid = '01JCE21CS004'
+    )
+    AND fid NOT IN (
+        SELECT
+            fid
+        FROM
+            resolved
+    );
 
+SELECT
+    camid
+FROM
+    camno
+WHERE
+    locid = 1;
+
+SELECT
+    locid,
+    bname,
+    floor,
+    aname
+FROM
+    location
+    NATURAL JOIN admin
+WHERE
+    univid = 1;
+
+SELECT
+    uid,
+    sname,
+    lid,
+    lname,
+    ldescription,
+    liimage,
+    ldate
+FROM
+    lost_item
+    NATURAL JOIN users
+WHERE
+    lid = 1;
+
+SELECT
+    uid,
+    sname,
+    fid,
+    fname,
+    fdescription,
+    fimage,
+    fdate,
+    locid,
+    locdesc,
+    bname,
+    floor,
+    aname
+FROM
+    found_item
+    NATURAL JOIN users
+    NATURAL JOIN location
+    NATURAL JOIN admin
+WHERE
+    fid = 1;
+
+SELECT
+    uid,
+    sname,
+    lid,
+    lname,
+    ldescription,
+    liimage,
+    ldate
+FROM
+    lost_item
+    NATURAL JOIN users
+WHERE
+    lID NOT IN (
+        SELECT
+            lid
+        FROM
+            resolved
+    )
+ORDER BY
+    ldate DESC
+LIMIT
+    5;
+
+UPDATE lost_item
+SET
+    ldescription = 'Dell Laptop, Black in colour'
+WHERE
+    lid = 1;
