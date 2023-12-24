@@ -4,7 +4,7 @@ import insertRouter from "./insertqueries";
 import selectRouter from "./selectqueries";
 import updateRouter from "./updatequeries";
 
-const lostItemRouter = Router();
+const lostItemRouter = Router({ mergeParams: true});
 lostItemRouter.use("/lostitems", deleteRouter);
 lostItemRouter.use("/lostitems", insertRouter);
 lostItemRouter.use("/lostitems", selectRouter);

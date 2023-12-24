@@ -11,6 +11,7 @@ async function deleteLostItem(lid: number): Promise<ResultSetHeader> {
 }
 
 const router = Router();
+
 router.delete("/:lid", async (req, res) => {
   const lid = parseInt(req.params.lid);
   const result = await deleteLostItem(lid);

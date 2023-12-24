@@ -10,6 +10,8 @@ async function addLostItem(params: lost_itemIns): Promise<lost_item> {
       `;
   const paramsWithoutLocation = { ...params };
   delete paramsWithoutLocation.probabily_lost_location;
+  console.log(paramsWithoutLocation);
+  
   const res = await AddOrUpdateQuery(queryString, [paramsWithoutLocation]);
   if (
     params.probabily_lost_location &&
@@ -32,7 +34,10 @@ async function addLostItem(params: lost_itemIns): Promise<lost_item> {
 }
 
 const router = Router();
+
 router.post("/", async (req, res) => {
+  console.log(req.body);
+  
   const lostitem = req.body as lost_itemIns;
   const result = await addLostItem(lostitem);
   res.send(result);

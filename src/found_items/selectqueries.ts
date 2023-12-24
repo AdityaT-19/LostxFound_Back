@@ -96,7 +96,7 @@ export async function getFoundItemByID(fid: number): Promise<found_item> {
   return found_item;
 }
 
-const router = Router();
+const router = Router({ mergeParams: true});
 
 router.get("/:fid", async (req, res) => {
   const id = parseInt(req.params.fid);

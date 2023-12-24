@@ -58,6 +58,7 @@ export async function getLocationFromPLL(lid: number): Promise<Location[]> {
 
 var router = express.Router({ mergeParams: true });
 
+
 router.get("/", async (req, res) => {
   //@ts-ignore
   const univid = parseInt(req.params.univid);

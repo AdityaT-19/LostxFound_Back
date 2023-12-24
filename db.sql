@@ -459,6 +459,7 @@ FROM
     lost_item
     NATURAL JOIN users
 WHERE
+    univid = 1 AND
     lID NOT IN (
         SELECT
             lid
@@ -623,3 +624,5 @@ SET
     ldescription = 'Dell Laptop, Black in colour'
 WHERE
     lid = 1;
+
+SELECT * FROM users;

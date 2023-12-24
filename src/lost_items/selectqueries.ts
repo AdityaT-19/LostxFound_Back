@@ -28,12 +28,27 @@ async function getLostItemsByUser(uid: string): Promise<lost_item[]> {
 }
 
 async function getAllLostItems(univid: number): Promise<lost_item[]> {
-  const queryLostItems =
-    queryLostItemsTemplate +
-    `univid = ? 
-  AND lid NOT IN (SELECT lid FROM resolved);
-  ;`;
+  const queryLostItems = `SELECT
+    uid,
+    sname,
+    lid,
+    lname,
+    ldescription,
+    liimage,
+    ldate
+FROM
+    lost_item
+    NATURAL JOIN users
+WHERE
+    univid = ? AND
+    lID NOT IN (
+        SELECT
+            lid
+        FROM
+            resolved
+    );`;
   let rows = await getAllQuery<lost_item>(queryLostItems, [univid]);
+  //console.log(JSON.stringify(rows));
 
   rows = await Promise.all(
     rows.map(async (row) => {
@@ -72,9 +87,11 @@ export async function getLostItemByID(lid: number): Promise<lost_item> {
 }
 
 const router = Router({ mergeParams: true });
+
 router.get("/", async (req, res) => {
   //@ts-ignore
   const univid = parseInt(req.params.univid);
+
   const lostitems = await getAllLostItems(univid);
   res.send(lostitems);
 });
